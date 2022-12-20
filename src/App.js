@@ -2,6 +2,8 @@ import './App.css';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import Home from './pages/Home';
 import Contact from './pages/Contact'
+import Login from './pages/Login'
+import Dashboard from './pages/Dashboard';
 
 function App() {
 
@@ -13,6 +15,14 @@ function App() {
     {
       path : 'contact',
       element : <Contact />
+    },
+    {
+      path : 'login',
+      element : <Login />
+    },
+    {
+      path : 'dashboard',
+      element : <Dashboard />
     }
   ])
   return (
