@@ -1,205 +1,179 @@
-import React from "react";
-import styled from "styled-components";
-import FacebookSharpIcon from "@mui/icons-material/FacebookSharp";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import MenuIcon from "@mui/icons-material/Menu";
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import styled, { keyframes } from "styled-components";
+import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
+import Button from "../../../components/button";
+import img1 from "../../../assets/slider/1-min.jpg";
+import img2 from "../../../assets/slider/2-min.jpg";
+import img3 from "../../../assets/slider/3-min.jpg";
+import img4 from "../../../assets/slider/4-min.jpg";
+import img5 from "../../../assets/slider/5-min.jpg";
+import Header from "./header";
 
-const Wrapper = styled.div`
-  height: 100vh;
-  background: url("/images/man operating machine.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
+const Container = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  background-color: gray;
   position: relative;
 `;
-
-const SliderContent = styled.div`
+const Slide = styled.div`
   position: absolute;
-  top: 30%;
-  right: 33%;
+  background: url(${(props) => props.banner});
+  transition: background 300ms ease-in 200ms;
+  background-size: cover;
+  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.5);
+  height: ${(props) => (props.active ? "100%" : "0")};
+  width: ${(props) => (props.active ? "100%" : "0")};
+  opacity: ${(props) => (props.active ? "100%" : "10%")};
+  visibility: ${(props) => (props.active ? "unset" : "hidden")};
+  transition: opacity 333ms ease-in;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
-
-const SliderHeading = styled.h1`
-  color: white;
-`;
-
-const SliderPara = styled.p`
-  color: white;
-  text-align: center;
-`;
-const SliderBtnWrapper = styled.div`
-  text-align: center;
-`;
-
-const SliderBtns = styled.button`
-  outline: none;
-  font-size: 18px;
-  border: 2px solid
-    ${(props) => (props.secondry ? "rgba(255,255,255)" : "rgba(0, 0, 0)")};
-  padding: 3% 7%;
-  margin: 1% 2%;
-  color: ${(props) => (props.secondry ? "rgb(0,0,0)" : "rgb(255,255,255)")};
-  background: ${(props) => (props.secondry ? "white" : "black")};
-  cursor: pointer;
-  transition: all 0.3s ease-in;
-  &:hover {
-    border: 2px solid
-      ${(props) =>
-        props.secondry ? "rgba(0, 0, 0, 1)" : "rgba(255, 255, 255, 1)"};
-  }
-`;
-
 const SliderChange = styled.div`
   position: absolute;
-  right: 2.5%;
+  right: 1.5%;
   top: 30%;
-`;
-
-const SliderMenu = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  flex-flow: row;
-  align-items: center;
-  margin-bottom: 1%;
 `;
 const SliderNumbers = styled.p`
   color: white;
   font-size: 20px;
   margin: 10px 0;
+  cursor: pointer;
+  position: relative;
+  position: relative;
   span {
     color: green;
     background: red;
   }
-`;
-
-const SliderMenuLogo = styled.div`
-  width: 25%;
-  text-align: center;
-  img {
-    width: 70px;
+  &::after {
+    content: "";
+    display: block;
+    color: red;
+    border: ${(props) => (props.active ? "1px" : "0px")} solid #a5cd39;
+    height: ${(props) => (props.active ? "100px" : "0px")};
+    transition: height 300ms ease-in-out;
+    width: 0px;
+    position: relative;
+    right: -5px;
   }
 `;
-
-const SliderMenuItems = styled.div`
-  width: 53%;
-  ul {
-    list-style-type: none;
-    display: flex;
-    flex-flow: row;
+const Animated = styled.div`
+  color: white;
+  margin-bottom: 1rem;
+  &:first-child {
+    height: 65px;
+    overflow: hidden;
   }
-
-  ul li {
-    color: white;
-    font-size: 18px;
-    padding: 2% 5%;
+  &:nth-child(2) {
+    height: 75px;
+    overflow: hidden;
   }
-
-  ul li a  {
-    text-decoration : none;
-    color : white;
-    &:hover {
-        color : green;
-    }
+  &:nth-child(3) {
+    height: 65px;
+    overflow: hidden;
   }
 `;
-
-const SliderMenuSocials = styled.div`
-  width: 15%;
-  text-align: center;
-  svg {
-    margin: 1% 2%;
-    font-size: 200%;
-    cursor: pointer;
-    color: white;
-    // &:nth-child(1) {
-    //   color: #4267b2;
-    // }
-    // &:nth-child(2) {
-    //   color: #1da1f2;
-    // }
-    // &:nth-child(3) {
-    //   color: #0a66c2;
-    // }
-    // &:nth-child(4) {
-    //   color: white;
-    //   border-radius: 4px;
-    //   font-size: 24px;
-    //   padding: 2px;
-    //   background: linear-gradient(to right, #d867c8, #ee66bc, #f4b725);
-    // }
-  }
+const H1 = styled.h1`
+  margin: 0;
+  position: relative;
+  bottom: ${(props) => (props.active ? "0" : "-40px")};
+  transition: bottom 400ms ease-in-out;
+  font-family: Exo, sans-serif;
+  font-weight: 300;
+  font-size: 43px;
+  line-height: 65px;
 `;
-
-const SliderHamburgerMenu = styled.div`
-  width: 7%;
-  text-align: center;
-
-  svg {
-    font-size: 250%;
-    color: white;
-    cursor: pointer;
-  }
+const P = styled.p`
+  margin: 0;
+  position: relative;
+  bottom: ${(props) => (props.active ? "0" : "-80px")};
+  transition: bottom 400ms ease-in-out;
+  font-weight: 200;
+  font-size: 22px;
+  line-height: 22px;
 `;
-
-function Slider() {
+const Div = styled.div`
+  position: relative;
+  bottom: ${(props) => (props.active ? "0" : "-40px")};
+  transition: bottom 400ms ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-gap: 2rem;
+`;
+const Slider = (props) => {
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActive((prev) => prev + 1);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+  useEffect(() => {
+    active > 4 && setActive(0);
+  }, [active]);
   return (
-    <Wrapper>
-      <SliderContent>
-        <SliderHeading>Health Care & Medical Supplies</SliderHeading>
-        <SliderPara>Advancing Sciene, Chosen for Excellence</SliderPara>
-        <SliderBtnWrapper>
-          <SliderBtns>Learn More</SliderBtns>
-          <SliderBtns secondry>Get Started</SliderBtns>
-        </SliderBtnWrapper>
-      </SliderContent>
-
+    <Container {...props}>
+      {[img1, img2, img3, img4, img5].map((el, i) => (
+        <Slide key={i} active={active === i} banner={el}>
+          <div>
+            <Animated>
+              <H1 active={active === i}>Global Sourcing</H1>
+            </Animated>
+            <Animated>
+              <P active={active === i}>
+                Offer smart sourcing tools to find <br /> Products,
+                Manufacturers & Suppliers in Asia
+              </P>
+            </Animated>
+            <Animated>
+              <Div active={active === i}>
+                <Button text="Learn More" />
+                <Button text="Get Started" color="#666666" />
+              </Div>
+            </Animated>
+          </div>
+        </Slide>
+      ))}
       <SliderChange>
-        <SliderNumbers>
-          01 <span>-</span>
-        </SliderNumbers>
-        <SliderNumbers>02</SliderNumbers>
-        <SliderNumbers>03</SliderNumbers>
-        <SliderNumbers>04</SliderNumbers>
-        <SliderNumbers>05</SliderNumbers>
+        {[...Array(5)].map((el, i) => (
+          <SliderNumbers
+            active={active === i}
+            onClick={() => {
+              setActive(i);
+            }}
+          >
+            {i + 1}{" "}
+            {active === i && (
+              <HorizontalRuleIcon
+                style={{
+                  color: "#a5cd39",
+                  position: "relative",
+                  left: "-5px",
+                  top: "5px",
+                }}
+              />
+            )}
+            {i === 4 && active == 4 && (
+              <HorizontalRuleIcon
+                style={{
+                  display: "block",
+                  position: "absolute",
+                  bottom: "-22px",
+                  color: "white",
+                  left: "-5px",
+                }}
+              />
+            )}
+          </SliderNumbers>
+        ))}
       </SliderChange>
-
-      <SliderMenu>
-        <SliderMenuLogo>
-          <img src="/images/ruyii-logo.png" alt="Ruyii Logo" />
-        </SliderMenuLogo>
-
-        <SliderMenuItems>
-          <ul>
-            <li>
-                <Link to='/'>Home</Link>
-            </li>
-            <li>Services</li>
-            <li>Products</li>
-            <li>About</li>
-            <li>
-                <Link to='/contact'>Contact</Link>
-            </li>
-          </ul>
-        </SliderMenuItems>
-
-        <SliderMenuSocials>
-          <FacebookSharpIcon />
-          <TwitterIcon />
-          <LinkedInIcon />
-          <InstagramIcon />
-        </SliderMenuSocials>
-
-        <SliderHamburgerMenu>
-          <MenuIcon />
-        </SliderHamburgerMenu>
-      </SliderMenu>
-    </Wrapper>
+      <div style={{ position: "absolute", bottom: "0", width: "100%" }}>
+        <Header forSlider={true} />
+      </div>
+    </Container>
   );
-}
+};
 
 export default Slider;

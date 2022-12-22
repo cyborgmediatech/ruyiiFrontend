@@ -1,99 +1,53 @@
-import React from 'react';
-import styled from 'styled-components';
-
-const Wrapper = styled.div`
-//   background: #bebebe;
-  display : flex;
-  flex-flow : column;
-  align-items : center;
-  padding : 70px 0;
-`;
-
-const Heading = styled.div`
-    align-self : center;
-
-    h1 {
-        font-size : 48px;
-    }
-`
-
+import React from "react";
+import styled from "styled-components";
+import Logo from "../../../assets/main-logo.png";
+import Button from "../../../components/button";
+import { H1 } from "../../../components/styled";
 const Container = styled.div`
-  width: 70%;
-  display: grid;
-  grid-template-columns: auto auto;
-  justify-content : space-around;
+  padding: 2% 6%;
 `;
-
-const ImageContainer = styled.div`
-  width: 400px;
-  img {
-    width: 100%;
-    box-shadow: 17px 17px 5px #BFAFB2;
-  }
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  // flex-wrap: wrap;
 `;
-
-const TextWrapper = styled.div`
-  //   background : white;
-  padding: 30px;
+const Text = styled.p`
+margin:0
+font-size:16px;
+line-height:22px;
+max-width:600px;
+`;
+const Img = styled.img`
   max-width: 300px;
-
-  h2 {
-    font-size: 42px;
-    margin: 0;
-  }
-  .aboveHeading {
-    margin-bottom: 0;
-    font-size: 15px;
-  }
-  .belowHeading {
-    line-height: 25px;
-  }
-
-  button {
-    outline : none;
-    border : 2px solid green;
-    font-size : 18px;
-    padding : 10px 25px;
-    background-color : transparent;
-    cursor : pointer;
-    color : green;
-    transition : all .4s ease-in-out;
-
-    &:hover {
-        color : white;
-        background : green;
-    }
-  }
+  height: 300px;
 `;
-
-function About() {
+const About = () => {
   return (
-    <Wrapper>
-      <Heading>
-        <h1>Craft out Beyond the Next Trend Horizon</h1>
-      </Heading>
-      <Container>
-        <ImageContainer>
-          <img
-            src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80"
-            alt=""
-          />
-        </ImageContainer>
-        <TextWrapper>
-          <p className="aboveHeading">Our People Come First</p>
-          <h2>About Us</h2>
-          <p className="belowHeading">
-            <b>RUYI GROUP</b> has developed as a dynamic service partner to its
+    <Container>
+      <Wrapper>
+        <div>
+          <H1>About us</H1>
+          <Text>
+            RUYI GROUP has developed as a dynamic service partner to its
             customers. Our independent professionals are the extension of your
             technical service and work closely with your technical staff. We are
             flexible and can be widely used for technical issues with your
-            machines or the entire production line...
-          </p>
-          <button>Learn More</button>
-        </TextWrapper>
-      </Container>
-    </Wrapper>
+            machines or the entire production line. Whether it is a maintenance
+            engineer or a tailor-made component in our workshop, RUYI Service
+            and Engineering provides a suitable solution at all times. And with
+            all the knowledge and skills we provide 24 hours a day, 7 days a
+            week for customization, answers, and professionals that fit your
+            company and the situation.
+          </Text>
+          <Button text="Learn More" width="35%" />
+        </div>
+        <div>
+          <Img src={Logo} alt="alt" width={"100%"} />
+        </div>
+      </Wrapper>
+    </Container>
   );
-}
+};
 
-export default About
+export default About;
